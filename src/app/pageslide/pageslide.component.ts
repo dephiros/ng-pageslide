@@ -45,11 +45,10 @@ export default class PageSlideComponent implements OnInit, OnDestroy, OnChanges 
   @Output() public onopen = new EventEmitter<any>();
   @Output() public onclose = new EventEmitter<any>();
 
-  private isOpen;
+  private isOpen = false;
   private isInit = false;
   private body;
-  private bodyClass;
-  private bodyClassReg;
+  private bodyClass; // this hold the class name for container
   private slider;
   // store version of function that is bound to this so we can add/remove event correctly
   private eventCanceller = new Map();
@@ -58,10 +57,11 @@ export default class PageSlideComponent implements OnInit, OnDestroy, OnChanges 
   constructor(private element: ElementRef, private renderer: Renderer2) {
     this.psPush = this.psPush && !this.psContainer;
     this.slider = element.nativeElement;
+    this.bodyClass = `${this.psClass}-body`;
   }
 
   public ngOnInit() {
-    this.slider.className += ' ' + this.psClass;
+    this.renderer.addClass(this.slider, this.psClass);
     if (this.psContainer) {
       this.body = (document as any).getElementById(this.psContainer);
     }
