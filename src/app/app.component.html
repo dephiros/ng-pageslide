@@ -1,20 +1,186 @@
-<!--The whole content below can be removed with the new code.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{title}}!!
-  </h1>
-  <img width="300" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAxOS4xLjAsIFNWRyBFeHBvcnQgUGx1Zy1JbiAuIFNWRyBWZXJzaW9uOiA2LjAwIEJ1aWxkIDApICAtLT4NCjxzdmcgdmVyc2lvbj0iMS4xIiBpZD0iTGF5ZXJfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiDQoJIHZpZXdCb3g9IjAgMCAyNTAgMjUwIiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCAyNTAgMjUwOyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+DQo8c3R5bGUgdHlwZT0idGV4dC9jc3MiPg0KCS5zdDB7ZmlsbDojREQwMDMxO30NCgkuc3Qxe2ZpbGw6I0MzMDAyRjt9DQoJLnN0MntmaWxsOiNGRkZGRkY7fQ0KPC9zdHlsZT4NCjxnPg0KCTxwb2x5Z29uIGNsYXNzPSJzdDAiIHBvaW50cz0iMTI1LDMwIDEyNSwzMCAxMjUsMzAgMzEuOSw2My4yIDQ2LjEsMTg2LjMgMTI1LDIzMCAxMjUsMjMwIDEyNSwyMzAgMjAzLjksMTg2LjMgMjE4LjEsNjMuMiAJIi8+DQoJPHBvbHlnb24gY2xhc3M9InN0MSIgcG9pbnRzPSIxMjUsMzAgMTI1LDUyLjIgMTI1LDUyLjEgMTI1LDE1My40IDEyNSwxNTMuNCAxMjUsMjMwIDEyNSwyMzAgMjAzLjksMTg2LjMgMjE4LjEsNjMuMiAxMjUsMzAgCSIvPg0KCTxwYXRoIGNsYXNzPSJzdDIiIGQ9Ik0xMjUsNTIuMUw2Ni44LDE4Mi42aDBoMjEuN2gwbDExLjctMjkuMmg0OS40bDExLjcsMjkuMmgwaDIxLjdoMEwxMjUsNTIuMUwxMjUsNTIuMUwxMjUsNTIuMUwxMjUsNTIuMQ0KCQlMMTI1LDUyLjF6IE0xNDIsMTM1LjRIMTA4bDE3LTQwLjlMMTQyLDEzNS40eiIvPg0KPC9nPg0KPC9zdmc+DQo=" />
-</div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" href="https://angular.io/docs/ts/latest/tutorial/">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" href="https://github.com/angular/angular-cli/wiki">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" href="http://angularjs.blogspot.ca/">Angular blog</a></h2>
-  </li>
-</ul>
+<!-- MAIN CONTENT -->
+<div id="main_content_wrap" class="outer" style="padding:20px">
+    <header>
+        <h1>
+            <a name="angularjs-pageslide-directive" class="anchor" href="#angularjs-pageslide-directive"><span
+                    class="octicon octicon-link"></span></a>AngularJS Pageslide directive
+        </h1>
+    </header>
 
+    <section id="main_content" class="inner">
+
+        <p>
+            An <a href="https://angular.io/">Angular</a> directive which slides another panel over your browser to
+            reveal an additional interaction pane.<br/>
+            It does all the css manipulation needed to position your content off canvas with html attibutes and it does
+            not depend on jQuery
+        </p>
+
+        <div>
+            <button class="large button" href="#" (click)="checked = !checked">Open Demo</button>
+            <pageslide [(psOpen)]="checked">
+                <div style="padding:20px" id="demo-right">
+                    <h2>Hello Pageslide</h2>
+                    <p>Put here whatever you want</p>
+                    <button (click)="checked = false" class="button">Close</button>
+                </div>
+            </pageslide>
+        </div>
+
+        <h3>Different speeds</h3>
+        <div>
+            <button class="tiny button" href="#" (click)="checkedSlow = !checkedSlow">Slowmo</button>
+            <pageslide [(psOpen)]="checkedSlow" [psSpeed]="2">
+                <div style="padding:20px" id="demo-right-slow">
+                    <h2>Hello Pageslidoo</h2>
+                    <p>Put here whatever you want</p>
+                    <button (click)="checkedSlow = false" class="button">Close</button>
+                </div>
+            </pageslide>
+        </div>
+        <div>
+            <button class="tiny button" href="#" (click)="checkedFast = !checkedFast">Fastbro</button>
+            <pageslide [(psOpen)]="checkedFast" [psSpeed]="0.25">
+                <div style="padding:20px" id="demo-right-fast">
+                    <h2>Hello Pageslidoo</h2>
+                    <p>Put here whatever you want</p>
+                    <button (click)="checkedFast = false" class="button">Close</button>
+                </div>
+            </pageslide>
+        </div>
+
+        <h3>Different directions</h3>
+        <div>
+            <button class="tiny button" href="#" (click)="checkedUp = !checkedUp">Up</button>
+            <pageslide [(psOpen)]="checkedUp" psSide="top">
+                <div style="padding:20px" id="demo-up">
+                    <h2>Hello up</h2>
+                    <p>Put here whatever you want</p>
+                    <button (click)="checkedUp = false" class="button">Close</button>
+                </div>
+            </pageslide>
+        </div>
+        <div>
+            <button class="tiny button" href="#" (click)="checkedDown = !checkedDown">Bottom</button>
+            <pageslide [(psOpen)]="checkedDown" psSide="bottom">
+                <div style="padding:20px" id="demo-down">
+                    <h2>Hello bottom</h2>
+                    <p>Put here whatever you want</p>
+                    <button (click)="checkedDown = false" class="button">Close</button>
+                </div>
+            </pageslide>
+        </div>
+        <div>
+            <button class="tiny button" href="#" (click)="checkLeft = !checkLeft">Left</button>
+            <pageslide [(psOpen)]="checkLeft" psSide="left">
+                <div style="padding:20px" id="demo-left">
+                    <h2>Hello left</h2>
+                    <p>Put here whatever you want</p>
+                    <button (click)="checkLeft = false" class="button">Close</button>
+                </div>
+            </pageslide>
+        </div>
+
+        <h3>Push content</h3>
+        <div>
+            <button class="tiny button" href="#" (click)="checkPush = !checkPush">Push</button>
+            <pageslide [(psOpen)]="checkPush" psSide="left" [psPush]="true">
+                <div style="padding:20px" id="demo-push">
+                    <h2>Hello push</h2>
+                    <p>Put here whatever you want</p>
+                    <button (click)="checkPush = false" class="button">Close</button>
+                </div>
+            </pageslide>
+        </div>
+
+        <h3>Escape key to close</h3>
+        <div>
+            <button class="tiny button" href="#" (click)="checkEscape = !checkEscape">Escape</button>
+            <pageslide [(psOpen)]="checkEscape" psSide="left" [psPush]="true" [psKeyListener]="true">
+                <div style="padding:20px" id="demo-escape">
+                    <h2>Hello escape</h2>
+                    <p>Put here whatever you want</p>
+                    <button (click)="checkEscape = false" class="button">Close</button>
+                </div>
+            </pageslide>
+        </div>
+
+        <h3>Custom class on container</h3>
+        <div>
+            <button class="tiny button" href="#" (click)="checkClassContainer = !checkClassContainer">Add Class to
+                container</button>
+            <pageslide [(psOpen)]="checkClassContainer" psSide="left" [psBodyClass]="true">
+                <div style="padding:20px" id="demo-container">
+                    <h2>Hello add class to container</h2>
+                    <p>Put here whatever you want</p>
+                    <button (click)="checkClassContainer = false" class="button">Close</button>
+                </div>
+            </pageslide>
+        </div>
+
+        <h3>Avoid click outside</h3>
+        <div>
+            <button class="tiny button" (click)="checkNoOutside = !checkNoOutside">No outside</button>
+            <pageslide [(psOpen)]="checkNoOutside" psSide="left" [psBodyClass]="true" [psClickOutside]="false">
+                <div style="padding:20px" id="demo-no-outside">
+                    <h2>Hello not click outside</h2>
+                    <p>Put here whatever you want</p>
+                    <button (click)="checkNoOutside = false" class="button">Close</button>
+                </div>
+            </pageslide>
+        </div>
+
+        <h3>dynamic size</h3>
+        <div>
+            <button class="tiny button" (click)="checkDynamicSize = !checkDynamicSize">dynamic size</button>
+            <pageslide [(psOpen)]="checkDynamicSize" psSide="right" [psBodyClass]="true" [psSize]="size + 'px'" [psClickOutside]="false">
+                <div style="padding:20px; overflow: hidden" id="demo-dynamic-size">
+                    <h2>Hello change size</h2>
+                    <p>Put here whatever you want</p>
+                    <button (click)="checkDynamicSize = false" class="button">Close</button>
+                </div>
+            </pageslide>
+            <label for="demo-dynamic-size-input">Size:</label>
+            <input [(ngModel)]="size" type="text" id="demo-dynamic-size-input">
+        </div>
+
+        <h3>event</h3>
+        <div>
+            <button class="tiny button" (click)="checkEvent = !checkEvent">Event</button>
+            <pageslide [(psOpen)]="checkEvent" psSide="right" [psBodyClass]="true" (onclose)="onClose()" (onopen)="onOpen()">
+            <div style="padding:20px; overflow: hidden" id="demo-event">
+                <h2>Hello event</h2>
+                <p>Put here whatever you want</p>
+                <button (click)="checkEvent = false" class="button">Close</button>
+            </div>
+            </pageslide>
+        </div>
+        <h3>Open in a container</h3>
+        <div id='container1'>
+            <p>
+                Pastrami pork belly strip steak meatball boudin pork. Beef doner pastrami leberkas. Frankfurter swine boudin doner. Bacon drumstick chicken landjaeger filet mignon pancetta. Corned beef leberkas frankfurter kevin. Tongue frankfurter pastrami, pork biltong alcatra leberkas meatloaf boudin strip steak spare ribs pork chop turkey.
+            </p>
+        </div>
+        <div>
+            <button class="tiny button" (click)="checkInContainerLeft = !checkInContainerLeft">In Container Left</button>
+            <pageslide [(psOpen)]="checkInContainerLeft" psSide="left" [psBodyClass]="true" psContainer="container1">
+                <div style="padding:20px; overflow: hidden" id="demo-in-container-left">
+                    <h2>Hello in container left</h2>
+                    <p>Put here whatever you want</p>
+                    <button (click)="checkInContainerLeft = false" class="button">Close</button>
+                </div>
+            </pageslide>
+        </div>
+        <div>
+            <button class="tiny button" (click)="checkInContainerTop = !checkInContainerTop">In Container Top</button>
+            <pageslide [(psOpen)]="checkInContainerTop" psSide="top" [psBodyClass]="true" psContainer="container1">
+                <div style="padding:20px; overflow: hidden" id="demo-in-container-top">
+                    <h2>Hello in container top</h2>
+                    <p>Put here whatever you want</p>
+                    <button (click)="checkInContainerTop = false" class="button">Close</button>
+                </div>
+            </pageslide>
+        </div>
+
+    </section>
+</div>
