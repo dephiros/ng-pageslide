@@ -12,7 +12,13 @@ import {
 })
 /* tslint:enable */
 export default class PageSlideComponent implements OnInit, OnDestroy, OnChanges {
-  // TODO double check style
+  public readonly SIDES = {
+    top: 'top',
+    bottom: 'bottom',
+    right: 'right',
+    left: 'left'
+  };
+
   @Input() public set psOpen(value) {
     // don't update slider if value already correct
     if (this.isOpen === value) { return; }
@@ -26,7 +32,7 @@ export default class PageSlideComponent implements OnInit, OnDestroy, OnChanges 
   // two way data binding
   @Output() public psOpenChange = new EventEmitter<boolean>();
   @Input() public psAutoClose: boolean;
-  @Input() public psSide = 'right';
+  @Input() public psSide = this.SIDES.right;
   @Input() public psSpeed = 0.5;
   @Input() public psClass = 'ng-pageslide';
   @Input() public psSize = '300px';
@@ -126,28 +132,28 @@ export default class PageSlideComponent implements OnInit, OnDestroy, OnChanges 
 
   private initSliderSide() {
     switch (this.psSide) {
-      case 'right':
+      case this.SIDES.right:
         this.slider.style.width = this.psSize;
         this.slider.style.height = '100%';
         this.slider.style.top = '0px';
         this.slider.style.bottom = '0px';
         this.slider.style.right = '0px';
         break;
-      case 'left':
+      case this.SIDES.left:
         this.slider.style.width = this.psSize;
         this.slider.style.height = '100%';
         this.slider.style.top = '0px';
         this.slider.style.bottom = '0px';
         this.slider.style.left = '0px';
         break;
-      case 'top':
+      case this.SIDES.top:
         this.slider.style.height = this.psSize;
         this.slider.style.width = '100%';
         this.slider.style.left = '0px';
         this.slider.style.top = '0px';
         this.slider.style.right = '0px';
         break;
-      case 'bottom':
+      case this.SIDES.bottom:
         this.slider.style.height = this.psSize;
         this.slider.style.width = '100%';
         this.slider.style.bottom = '0px';
@@ -161,28 +167,28 @@ export default class PageSlideComponent implements OnInit, OnDestroy, OnChanges 
     // this will get called from setter before init
     if (!this.isInit) { return; }
     switch (this.psSide) {
-      case 'right':
+      case this.SIDES.right:
         this.slider.style.right = '-' + this.psSize;
         if (this.psPush) {
           this.body.style.right = '0px';
           this.body.style.left = '0px';
         }
         break;
-      case 'left':
+      case this.SIDES.left:
         this.slider.style.left = '-' + this.psSize;
         if (this.psPush) {
           this.body.style.left = '0px';
           this.body.style.right = '0px';
         }
         break;
-      case 'top':
+      case this.SIDES.top:
         this.slider.style.top = '-' + this.psSize;
         if (this.psPush) {
           this.body.style.top = '0px';
           this.body.style.bottom = '0px';
         }
         break;
-      case 'bottom':
+      case this.SIDES.bottom:
         this.slider.style.bottom = '-' + this.psSize;
         if (this.psPush) {
           this.body.style.bottom = '0px';
@@ -208,28 +214,28 @@ export default class PageSlideComponent implements OnInit, OnDestroy, OnChanges 
     // this will get called from setter before init
     if (!this.isInit) { return; }
     switch (this.psSide) {
-      case 'right':
+      case this.SIDES.right:
         this.slider.style.right = '0px';
         if (this.psPush) {
           this.body.style.right = this.psSize;
           this.body.style.left = '-' + this.psSize;
         }
         break;
-      case 'left':
+      case this.SIDES.left:
         this.slider.style.left = '0px';
         if (this.psPush) {
           this.body.style.left = this.psSize;
           this.body.style.right = '-' + this.psSize;
         }
         break;
-      case 'top':
+      case this.SIDES.top:
         this.slider.style.top = '0px';
         if (this.psPush) {
           this.body.style.top = this.psSize;
           this.body.style.bottom = '-' + this.psSize;
         }
         break;
-      case 'bottom':
+      case this.SIDES.bottom:
         this.slider.style.bottom = '0px';
         if (this.psPush) {
           this.body.style.bottom = this.psSize;
