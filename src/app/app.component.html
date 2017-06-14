@@ -163,7 +163,8 @@
         </div>
         <div>
             <button class="tiny button" (click)="checkInContainerLeft = !checkInContainerLeft">In Container Left</button>
-            <pageslide [(psOpen)]="checkInContainerLeft" psSide="left" [psBodyClass]="true" psContainer="container1">
+            <pageslide [(psOpen)]="checkInContainerLeft" psSide="left" [psBodyClass]="true" psContainer="container1"
+                       [psPush]="true">
                 <div style="padding:20px; overflow: hidden" id="demo-in-container-left">
                     <h2>Hello in container left</h2>
                     <p>Put here whatever you want</p>

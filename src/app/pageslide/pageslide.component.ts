@@ -55,7 +55,6 @@ export default class PageSlideComponent implements OnInit, OnDestroy, OnChanges 
   private readonly CLASS_STATE = {closed: 'closed', open: 'open'};
 
   constructor(private element: ElementRef, private renderer: Renderer2) {
-    this.psPush = this.psPush && !this.psContainer;
     this.slider = element.nativeElement;
     this.bodyClass = `${this.psClass}-body`;
   }
@@ -105,6 +104,9 @@ export default class PageSlideComponent implements OnInit, OnDestroy, OnChanges 
   public ngOnChanges(changes: SimpleChanges) {
     if (changes['psSize'] && changes['psSize'].currentValue !== changes['psSize'].previousValue) {
       this.initSliderSide();
+    }
+    if (changes['psPush'] !== undefined) {
+      this.psPush = this.psPush && !this.psContainer; // not support push in container
     }
   }
 
