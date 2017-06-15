@@ -18,6 +18,10 @@ export default class PageSlideComponent implements OnInit, OnDestroy, OnChanges 
     right: 'right',
     left: 'left'
   };
+  public readonly DEFAULT_SPEED = 0.5;
+  public readonly DEFAULT_CLASS = 'ng-pageslide';
+  public readonly DEFAULT_SIZE = '300px';
+  public readonly DEFAULT_ZINDEX = 1000;
 
   @Input() public set psOpen(value) {
     // don't update slider if value already correct
@@ -33,10 +37,10 @@ export default class PageSlideComponent implements OnInit, OnDestroy, OnChanges 
   @Output() public psOpenChange = new EventEmitter<boolean>();
   @Input() public psAutoClose: boolean;
   @Input() public psSide = this.SIDES.right;
-  @Input() public psSpeed = 0.5;
-  @Input() public psClass = 'ng-pageslide';
-  @Input() public psSize = '300px';
-  @Input() public psZindex = 1000;
+  @Input() public psSpeed = this.DEFAULT_SPEED;
+  @Input() public psClass = this.DEFAULT_CLASS;
+  @Input() public psSize = this.DEFAULT_SIZE;
+  @Input() public psZindex = this.DEFAULT_ZINDEX;
   @Input() public psPush = false;
   @Input() public psContainer = '';
   @Input() psKeyListener: false;

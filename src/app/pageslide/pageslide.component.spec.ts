@@ -7,10 +7,12 @@ import PageSlideComponent from './pageslide.component';
 
 // do separate class to test code in ngOnInit
 @Component({
-  template: '<pageslide psSide="top"></pageslide>'
+  template: '<pageslide psSide="top" [psSpeed]="speed" [psPush]="true" [(psOpen)]="open"></pageslide>'
 })
 class TestTopComponent {
   @ViewChild(PageSlideComponent) public sliderComponent;
+  public speed = 0.7;
+  public open = false;
 }
 @Component({
   template: '<pageslide psSide="bottom"></pageslide>'
@@ -45,6 +47,7 @@ describe('pageslide', () => {
   describe('pageslide', () => {
     it('should render pageslide', () => {
       const fixture = TestBed.createComponent(PageSlideComponent);
+      const sliderComponent = fixture.componentInstance;
       fixture.detectChanges();
       expect(document.getElementsByTagName('pageslide')).not.toBeNull();
     });
@@ -62,12 +65,12 @@ describe('pageslide', () => {
       it('should start being closed', () => {
         expect(this.sliderEl.style.height).toEqual(this.sliderComponent.psSize);
         expect(this.sliderEl.style.width).toEqual('100%');
-        expect(this.sliderEl.style.top).toEqual(`-${this.sliderComponent.psSize}`)
+        expect(isTopClose(this.sliderEl, this.sliderComponent.psSize)).toBeTruthy();
       });
       it('should open correctly', () => {
         this.sliderComponent.psOpen = true;
         this.testFixture.detectChanges();
-        expect(this.sliderEl.style.top).toEqual('0px');
+        expect(isTopOpen(this.sliderEl)).toBeTruthy();
       });
     });
 
@@ -90,60 +93,101 @@ describe('pageslide', () => {
         expect(this.sliderEl.style.bottom).toEqual('0px');
       });
     });
+
+    describe('left', () => {
+      beforeEach(() => {
+        this.testFixture = TestBed.createComponent(TestLeftComponent);
+        this.testComponent = this.testFixture.debugElement.componentInstance;
+        this.sliderComponent = this.testComponent.sliderComponent;
+        this.sliderEl = document.getElementsByTagName('pageslide')[0];
+        this.testFixture.detectChanges();
+      });
+      it('should start being closed', () => {
+        expect(this.sliderEl.style.width).toEqual(this.sliderComponent.psSize);
+        expect(this.sliderEl.style.height).toEqual('100%');
+        expect(this.sliderEl.style.left).toEqual(`-${this.sliderComponent.psSize}`)
+      });
+      it('should open correctly', () => {
+        this.sliderComponent.psOpen = true;
+        this.testFixture.detectChanges();
+        expect(this.sliderEl.style.left).toEqual('0px');
+      });
+    });
+
+    describe('right', () => {
+      beforeEach(() => {
+        this.testFixture = TestBed.createComponent(TestRightComponent);
+        this.testComponent = this.testFixture.debugElement.componentInstance;
+        this.sliderComponent = this.testComponent.sliderComponent;
+        this.sliderEl = document.getElementsByTagName('pageslide')[0];
+        this.testFixture.detectChanges();
+      });
+      it('should start being closed', () => {
+        expect(this.sliderEl.style.width).toEqual(this.sliderComponent.psSize);
+        expect(this.sliderEl.style.height).toEqual('100%');
+        expect(this.sliderEl.style.right).toEqual(`-${this.sliderComponent.psSize}`)
+      });
+      it('should open correctly', () => {
+        this.sliderComponent.psOpen = true;
+        this.testFixture.detectChanges();
+        expect(this.sliderEl.style.right).toEqual('0px');
+      });
+    });
   });
 
-  describe('left', () => {
-    beforeEach(() => {
-      this.testFixture = TestBed.createComponent(TestLeftComponent);
-      this.testComponent = this.testFixture.debugElement.componentInstance;
-      this.sliderComponent = this.testComponent.sliderComponent;
-      this.sliderEl = document.getElementsByTagName('pageslide')[0];
-      this.testFixture.detectChanges();
-    });
-    it('should start being closed', () => {
-      expect(this.sliderEl.style.width).toEqual(this.sliderComponent.psSize);
-      expect(this.sliderEl.style.height).toEqual('100%');
-      expect(this.sliderEl.style.left).toEqual(`-${this.sliderComponent.psSize}`)
-    });
-    it('should open correctly', () => {
-      this.sliderComponent.psOpen = true;
-      this.testFixture.detectChanges();
-      expect(this.sliderEl.style.left).toEqual('0px');
-    });
-  });
-
-  describe('right', () => {
-    beforeEach(() => {
-      this.testFixture = TestBed.createComponent(TestRightComponent);
-      this.testComponent = this.testFixture.debugElement.componentInstance;
-      this.sliderComponent = this.testComponent.sliderComponent;
-      this.sliderEl = document.getElementsByTagName('pageslide')[0];
-      this.testFixture.detectChanges();
-    });
-    it('should start being closed', () => {
-      expect(this.sliderEl.style.width).toEqual(this.sliderComponent.psSize);
-      expect(this.sliderEl.style.height).toEqual('100%');
-      expect(this.sliderEl.style.right).toEqual(`-${this.sliderComponent.psSize}`)
-    });
-    it('should open correctly', () => {
-      this.sliderComponent.psOpen = true;
-      this.testFixture.detectChanges();
-      expect(this.sliderEl.style.right).toEqual('0px');
-    });
-  });
 
   describe('psSpeed', () => {
-    it('should have default speed');
-    it('should set transition duration on slider');
+    it('should have default speed', () => {
+      const testFixture = TestBed.createComponent(PageSlideComponent);
+      const component = testFixture.componentInstance;
+      expect(component.psSpeed).toBe(component.DEFAULT_SPEED);
+    });
+    it('should set transition duration on slider', () => {
+      const testFixture = TestBed.createComponent(TestTopComponent);
+      const component = testFixture.componentInstance;
+      const sliderEl = document.getElementsByTagName('pageslide')[0] as HTMLElement;
+      testFixture.detectChanges();
+      expect(sliderEl.style.transitionDuration).toBe(component.speed + 's');
+    });
+
     describe('psPush is true: ', () => {
-      it('should set the transition duration on body')
+      beforeEach(() => {
+        this.testFixture = TestBed.createComponent(TestTopComponent);
+        this.sliderComponent = this.testFixture.componentInstance.sliderComponent;
+        this.testFixture.detectChanges();
+      });
+      it('should set the transition duration on body', () => {
+        expect(document.body.style.transitionDuration).toBe(this.sliderComponent.psSpeed + 's');
+      });
     });
   });
 
   describe('psOpen', () => {
-    it('should open the drawer when set to true');
-    it('should close the drawer when set to false');
-    it('should update the parent attribute when psOpen is changed')
+    beforeEach(() => {
+      this.testFixture = TestBed.createComponent(TestTopComponent);
+      this.containerComponent = this.testFixture.componentInstance;
+      this.sliderComponent = this.containerComponent.sliderComponent;
+      this.sliderEl = document.getElementsByTagName('pageslide')[0];
+      this.testFixture.detectChanges();
+    });
+    it('should open the drawer when set to true', () => {
+      this.containerComponent.open = true;
+      this.testFixture.detectChanges();
+      expect(isTopOpen(this.sliderEl)).toBeTruthy();
+    });
+    it('should close the drawer when set to false', () => {
+      this.containerComponent.open = true;
+      this.testFixture.detectChanges();
+      this.containerComponent.open = false;
+      this.testFixture.detectChanges();
+      expect(isTopClose(this.sliderEl, this.sliderComponent.psSize)).toBeTruthy();
+    });
+    it('should update the parent attribute when psOpen is changed', () => {
+      this.containerComponent.open = true;
+      this.testFixture.detectChanges();
+      this.sliderComponent.psOpen = false;
+      expect(this.containerComponent.open).toBeFalsy();
+    })
   });
 
   describe('psClass', () => {
@@ -187,5 +231,13 @@ describe('pageslide', () => {
   describe('container', () => {
     it('should attach page slide by default to body');
   });
+
+  function isTopOpen(sliderEl: HTMLElement): boolean {
+    return sliderEl.style.top === '0px';
+  }
+
+  function isTopClose(sliderEl: HTMLElement, psSize): boolean {
+    return sliderEl.style.top === '-' + psSize;
+  }
 
 });
