@@ -1,3 +1,5 @@
+[![CircleCI](https://circleci.com/gh/dephiros/ng-pageslide.svg?style=svg)](https://circleci.com/gh/dephiros/ng-pageslide)
+
 # NgPageslide
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.1.1.
