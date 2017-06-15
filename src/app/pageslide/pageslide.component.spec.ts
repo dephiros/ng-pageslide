@@ -1,40 +1,93 @@
 /* tslint:disable:no-unused-variable */
 
 import 'reflect-metadata/Reflect';
+import {Component, ViewChild} from '@angular/core';
 import {TestBed} from '@angular/core/testing';
 import PageSlideComponent from './pageslide.component';
-import {Component} from '@angular/core';
 
-const TEST_TEMPLATE = '<pageslide psSide="#SIDE"></pageslide>';
+// do separate class to test code in ngOnInit
 @Component({
-  template: TEST_TEMPLATE
+  template: '<pageslide psSide="top"></pageslide>'
 })
-class TestComponent {
-
+class TestTopComponent {
+  @ViewChild(PageSlideComponent) public sliderComponent;
+}
+@Component({
+  template: '<pageslide psSide="bottom"></pageslide>'
+})
+class TestBottomComponent extends TestTopComponent {
+}
+@Component({
+  template: '<pageslide psSide="right"></pageslide>'
+})
+class TestRightComponent extends TestTopComponent {
+}
+@Component({
+  template: '<pageslide psSide="left"></pageslide>'
+})
+class TestLeftComponet extends TestTopComponent {
 }
 
 describe('pageslide', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [PageSlideComponent], // declare the test component
+      declarations: [
+        PageSlideComponent,
+        TestTopComponent,
+        TestBottomComponent,
+        TestRightComponent,
+        TestLeftComponet
+      ], // declare the test component
     });
     TestBed.compileComponents();
-    this.fixture = TestBed.createComponent(PageSlideComponent);
-    this.component = this.fixture.debugElement.componentInstance;
+  });
+
+  describe('pageslide', () => {
+    it('should render pageslide', () => {
+      const fixture = TestBed.createComponent(PageSlideComponent);
+      const component = fixture.debugElement.componentInstance;
+      fixture.detectChanges();
+      expect(document.getElementsByTagName('pageslide')).not.toBeNull();
+    });
   });
 
   describe('psSide', () => {
 
-    it('should default to right', () => {
-      expect(true).toBeTruthy();
-    });
+    // it('should default to right', () => {
+    //   expect(this.component.psSide).toBe(this.component.SIDES.right);
+    // });
 
-    // for (const side of this.component.SIDES) {
-    //   describe(`${side}: `, () => {
-    //     it('should initialize correctly');
-    //     it('should open correctly')
-    //   });
-    // }
+    const SIDES = ['right', 'left', 'top', 'bottom']; // cannot access this.component here
+    for (const side of SIDES) {
+      // beforeEach(() => {
+      //   TestBed.overrideComponent(TestComponent, {set: {template: `<pageslide psSide="${side}"></pageslide>`}})
+      //     .compileComponents();
+      // });
+      //
+      // describe(`${side}: `, () => {
+      //   beforeEach(() => {
+      //     this.testFixture =  TestBed.createComponent(TestComponent);
+      //     this.testComponent = this.testFixture.debugElement.componentInstance;
+      //     this.sliderComponent = this.testComponent.sliderComponent;
+      //     this.sliderEl = document.getElementsByTagName('pageslide')[0];
+      //     this.testFixture.detectChanges();
+      //   });
+      //
+      //   it('should initialize correctly', () => {
+      //     console.log(this.sliderComponent.psSide);
+      //     switch (side) {
+      //       case 'right':
+      //       case 'left':
+      //         expect(this.sliderEl.style.width).toEqual(this.sliderComponent.psSize);
+      //         break;
+      //       case 'top':
+      //       case 'bottom':
+      //         expect(this.sliderEl.style.height).toEqual(this.sliderComponent.psSize);
+      //     }
+      //   });
+      //   it('should open correctly')
+      // });
+    }
   });
 
   describe('psSpeed', () => {
@@ -90,14 +143,7 @@ describe('pageslide', () => {
   });
 
   describe('container', () => {
+    it('should attach page slide by default to body');
   });
-
-  function updateTestComponentAnnotation(annotations) {
-    const metaData = Reflect.getMetadata('annotations', TestComponent);
-    for (const aKey of annotations.keys) {
-      metaData[0][aKey] = annotations[aKey];
-    }
-    Reflect.defineMetadata('annotations', metaData, TestComponent);
-  }
 
 });
