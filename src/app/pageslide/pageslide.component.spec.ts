@@ -25,7 +25,7 @@ class TestRightComponent extends TestTopComponent {
 @Component({
   template: '<pageslide psSide="left"></pageslide>'
 })
-class TestLeftComponet extends TestTopComponent {
+class TestLeftComponent extends TestTopComponent {
 }
 
 describe('pageslide', () => {
@@ -36,7 +36,7 @@ describe('pageslide', () => {
         TestTopComponent,
         TestBottomComponent,
         TestRightComponent,
-        TestLeftComponet
+        TestLeftComponent
       ], // declare the test component
     });
     TestBed.compileComponents();
@@ -45,49 +45,91 @@ describe('pageslide', () => {
   describe('pageslide', () => {
     it('should render pageslide', () => {
       const fixture = TestBed.createComponent(PageSlideComponent);
-      const component = fixture.debugElement.componentInstance;
       fixture.detectChanges();
       expect(document.getElementsByTagName('pageslide')).not.toBeNull();
     });
   });
 
   describe('psSide', () => {
+    describe('top', () => {
+      beforeEach(() => {
+        this.testFixture = TestBed.createComponent(TestTopComponent);
+        this.testComponent = this.testFixture.debugElement.componentInstance;
+        this.sliderComponent = this.testComponent.sliderComponent;
+        this.sliderEl = document.getElementsByTagName('pageslide')[0];
+        this.testFixture.detectChanges();
+      });
+      it('should start being closed', () => {
+        expect(this.sliderEl.style.height).toEqual(this.sliderComponent.psSize);
+        expect(this.sliderEl.style.width).toEqual('100%');
+        expect(this.sliderEl.style.top).toEqual(`-${this.sliderComponent.psSize}`)
+      });
+      it('should open correctly', () => {
+        this.sliderComponent.psOpen = true;
+        this.testFixture.detectChanges();
+        expect(this.sliderEl.style.top).toEqual('0px');
+      });
+    });
 
-    // it('should default to right', () => {
-    //   expect(this.component.psSide).toBe(this.component.SIDES.right);
-    // });
+    describe('bottom', () => {
+      beforeEach(() => {
+        this.testFixture = TestBed.createComponent(TestBottomComponent);
+        this.testComponent = this.testFixture.debugElement.componentInstance;
+        this.sliderComponent = this.testComponent.sliderComponent;
+        this.sliderEl = document.getElementsByTagName('pageslide')[0];
+        this.testFixture.detectChanges();
+      });
+      it('should start being closed', () => {
+        expect(this.sliderEl.style.height).toEqual(this.sliderComponent.psSize);
+        expect(this.sliderEl.style.width).toEqual('100%');
+        expect(this.sliderEl.style.bottom).toEqual(`-${this.sliderComponent.psSize}`)
+      });
+      it('should open correctly', () => {
+        this.sliderComponent.psOpen = true;
+        this.testFixture.detectChanges();
+        expect(this.sliderEl.style.bottom).toEqual('0px');
+      });
+    });
+  });
 
-    const SIDES = ['right', 'left', 'top', 'bottom']; // cannot access this.component here
-    for (const side of SIDES) {
-      // beforeEach(() => {
-      //   TestBed.overrideComponent(TestComponent, {set: {template: `<pageslide psSide="${side}"></pageslide>`}})
-      //     .compileComponents();
-      // });
-      //
-      // describe(`${side}: `, () => {
-      //   beforeEach(() => {
-      //     this.testFixture =  TestBed.createComponent(TestComponent);
-      //     this.testComponent = this.testFixture.debugElement.componentInstance;
-      //     this.sliderComponent = this.testComponent.sliderComponent;
-      //     this.sliderEl = document.getElementsByTagName('pageslide')[0];
-      //     this.testFixture.detectChanges();
-      //   });
-      //
-      //   it('should initialize correctly', () => {
-      //     console.log(this.sliderComponent.psSide);
-      //     switch (side) {
-      //       case 'right':
-      //       case 'left':
-      //         expect(this.sliderEl.style.width).toEqual(this.sliderComponent.psSize);
-      //         break;
-      //       case 'top':
-      //       case 'bottom':
-      //         expect(this.sliderEl.style.height).toEqual(this.sliderComponent.psSize);
-      //     }
-      //   });
-      //   it('should open correctly')
-      // });
-    }
+  describe('left', () => {
+    beforeEach(() => {
+      this.testFixture = TestBed.createComponent(TestLeftComponent);
+      this.testComponent = this.testFixture.debugElement.componentInstance;
+      this.sliderComponent = this.testComponent.sliderComponent;
+      this.sliderEl = document.getElementsByTagName('pageslide')[0];
+      this.testFixture.detectChanges();
+    });
+    it('should start being closed', () => {
+      expect(this.sliderEl.style.width).toEqual(this.sliderComponent.psSize);
+      expect(this.sliderEl.style.height).toEqual('100%');
+      expect(this.sliderEl.style.left).toEqual(`-${this.sliderComponent.psSize}`)
+    });
+    it('should open correctly', () => {
+      this.sliderComponent.psOpen = true;
+      this.testFixture.detectChanges();
+      expect(this.sliderEl.style.left).toEqual('0px');
+    });
+  });
+
+  describe('right', () => {
+    beforeEach(() => {
+      this.testFixture = TestBed.createComponent(TestRightComponent);
+      this.testComponent = this.testFixture.debugElement.componentInstance;
+      this.sliderComponent = this.testComponent.sliderComponent;
+      this.sliderEl = document.getElementsByTagName('pageslide')[0];
+      this.testFixture.detectChanges();
+    });
+    it('should start being closed', () => {
+      expect(this.sliderEl.style.width).toEqual(this.sliderComponent.psSize);
+      expect(this.sliderEl.style.height).toEqual('100%');
+      expect(this.sliderEl.style.right).toEqual(`-${this.sliderComponent.psSize}`)
+    });
+    it('should open correctly', () => {
+      this.sliderComponent.psOpen = true;
+      this.testFixture.detectChanges();
+      expect(this.sliderEl.style.right).toEqual('0px');
+    });
   });
 
   describe('psSpeed', () => {
