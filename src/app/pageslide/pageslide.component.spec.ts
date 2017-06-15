@@ -208,7 +208,22 @@ describe('pageslide', () => {
 
   describe('pushContent', () => {
     describe('when psContainer is not set', () => {
-      it('should push the content in body')
+      beforeEach(() => {
+        this.initSliderWithParams();
+      });
+      describe('and psSide is left', () => {
+
+      });
+      it('should push the content in body', () => {
+        this.sliderComponent.psOpen = true;
+        this.testFixture.detectChanges();
+
+      });
+      it('should push the content in body', () => {
+        this.sliderComponent.psOpen = true;
+        this.testFixture.detectChanges();
+
+      });
     });
     describe('when psContainer is set', () => {
       it('psPush should be off');

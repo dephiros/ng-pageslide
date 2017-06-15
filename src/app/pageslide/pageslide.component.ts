@@ -176,8 +176,8 @@ export default class PageSlideComponent implements OnInit, OnDestroy, OnChanges 
       case this.SIDES.right:
         this.slider.style.right = '-' + this.psSize;
         if (this.psPush) {
-          this.body.style.right = '0px';
           this.body.style.left = '0px';
+          this.body.style.right = '0px';
         }
         break;
       case this.SIDES.left:
@@ -197,8 +197,8 @@ export default class PageSlideComponent implements OnInit, OnDestroy, OnChanges 
       case this.SIDES.bottom:
         this.slider.style.bottom = '-' + this.psSize;
         if (this.psPush) {
-          this.body.style.bottom = '0px';
           this.body.style.top = '0px';
+          this.body.style.bottom = '0px';
         }
         break;
     }
