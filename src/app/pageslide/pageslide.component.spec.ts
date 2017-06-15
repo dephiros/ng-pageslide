@@ -210,6 +210,43 @@ describe('pageslide', () => {
       beforeEach(() => {
         this.initSliderWithParams();
       });
+
+      describe('and psSide is top', () => {
+        beforeEach(() => {
+          this.sliderComponent.psSide = this.sliderComponent.SIDES.top;
+          this.sliderComponent.psOpen = true;
+          this.testFixture.detectChanges();
+        });
+        it('should set body style in closed state', () => {
+          this.sliderComponent.psOpen = false;
+          this.testFixture.detectChanges();
+          expect(this.sliderComponent.body.style.top).toEqual('0px');
+          expect(this.sliderComponent.body.style.bottom).toEqual('0px');
+        });
+        it('should push the content in body', () => {
+          expect(this.sliderComponent.body.style.top).toEqual(this.sliderComponent.psSize);
+          expect(this.sliderComponent.body.style.bottom).toEqual('-' + this.sliderComponent.psSize);
+        });
+      });
+
+      describe('and psSide is bottom', () => {
+        beforeEach(() => {
+          this.sliderComponent.psSide = this.sliderComponent.SIDES.bottom;
+          this.sliderComponent.psOpen = true;
+          this.testFixture.detectChanges();
+        });
+        it('should set body style in closed state', () => {
+          this.sliderComponent.psOpen = false;
+          this.testFixture.detectChanges();
+          expect(this.sliderComponent.body.style.top).toEqual('0px');
+          expect(this.sliderComponent.body.style.bottom).toEqual('0px');
+        });
+        it('should push the content in body', () => {
+          expect(this.sliderComponent.body.style.bottom).toEqual(this.sliderComponent.psSize);
+          expect(this.sliderComponent.body.style.top).toEqual('-' + this.sliderComponent.psSize);
+        });
+      });
+
       describe('and psSide is left', () => {
         beforeEach(() => {
           this.sliderComponent.psSide = this.sliderComponent.SIDES.left;
@@ -225,6 +262,24 @@ describe('pageslide', () => {
         it('should push the content in body', () => {
           expect(this.sliderComponent.body.style.left).toEqual(this.sliderComponent.psSize);
           expect(this.sliderComponent.body.style.right).toEqual('-' + this.sliderComponent.psSize);
+        });
+      });
+
+      describe('and psSide is right', () => {
+        beforeEach(() => {
+          this.sliderComponent.psSide = this.sliderComponent.SIDES.right;
+          this.sliderComponent.psOpen = true;
+          this.testFixture.detectChanges();
+        });
+        it('should set body style in closed state', () => {
+          this.sliderComponent.psOpen = false;
+          this.testFixture.detectChanges();
+          expect(this.sliderComponent.body.style.left).toEqual('0px');
+          expect(this.sliderComponent.body.style.right).toEqual('0px');
+        });
+        it('should push the content in body', () => {
+          expect(this.sliderComponent.body.style.right).toEqual(this.sliderComponent.psSize);
+          expect(this.sliderComponent.body.style.left).toEqual('-' + this.sliderComponent.psSize);
         });
       });
     });
