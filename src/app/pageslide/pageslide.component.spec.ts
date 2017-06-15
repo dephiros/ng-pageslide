@@ -8,12 +8,13 @@ import PageSlideComponent from './pageslide.component';
 @Component({
   template: `
       <pageslide psSide="top" [psSpeed]="speed" [psPush]="true" [(psOpen)]="open"
-                 psClass="test"></pageslide>`
+                 psClass="test" [psSize]="size + 'px'"></pageslide>`
 })
 class TestTopComponent {
   @ViewChild(PageSlideComponent) public sliderComponent;
   public speed = 0.7;
   public open = false;
+  public size = 100;
 }
 @Component({
   template: '<pageslide psSide="bottom"></pageslide>'
@@ -32,7 +33,7 @@ class TestLeftComponent extends TestTopComponent {
 }
 @Component({
   template: `
-      <pageslide [psBodyClass]="true" psClass="test" psContainer="container"></pageslide>
+      <pageslide [psBodyClass]="true" psClass="test" psContainer="container" [psPush]="true"></pageslide>
       <div id="container"></div>`
 })
 class TestContainerComponent extends TestTopComponent {
@@ -284,14 +285,34 @@ describe('pageslide', () => {
       });
     });
     describe('when psContainer is set', () => {
-      it('psPush should be off');
+      it('psPush should be off', () => {
+        // the container has push but should not take effect
+        this.initSliderWithParams(TestContainerComponent);
+        expect(this.sliderComponent.psPush).toBeFalsy();
+      });
     })
   });
 
   describe('psSize', () => {
-    it('slider should start with default size if not specified');
-    it('slider should use specified size');
-    it('slider size should change dynamically');
+    it('slider should start with default size if not specified', () => {
+      this.initSlider();
+      expect(this.sliderComponent.psSize).toEqual(this.sliderComponent.DEFAULT_SIZE);
+    });
+
+    describe('when size is specified', () => {
+      beforeEach(() => {
+        this.initSliderWithParams();
+      });
+      it('slider should use specified size', () => {
+        expect(this.sliderComponent.psSize).toEqual(this.containerComponent.size + 'px');
+      });
+      it('slider size should change dynamically', () => {
+        const testSize = 500;
+        this.containerComponent.size = testSize;
+        this.testFixture.detectChanges();
+        expect(this.sliderComponent.psSize).toEqual(testSize + 'px');
+      });
+    });
   });
 
   describe('click outside to close', () => {
