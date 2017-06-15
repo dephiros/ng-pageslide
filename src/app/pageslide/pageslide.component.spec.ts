@@ -316,13 +316,34 @@ describe('pageslide', () => {
   });
 
   describe('click outside to close', () => {
-    it('by default psClickOutside is init to true');
-    describe('psClickOutside is set to true', () => {
-      it('clicking outside should close slider');
-      it('clicking outside should update parent psOpen');
+    it('by default psClickOutside is init to true', () => {
+      this.initSlider();
+      expect(this.sliderComponent.psClickOutside).toBeTruthy();
     });
-    describe('psClickOutside is set to false', () => {
-      it('clicking outside should not have effect');
+
+    describe('when psClickOutside is set to true', () => {
+      beforeEach(() => {
+        this.initSliderWithParams();
+        // open the slider
+        this.sliderComponent.psOpen = true;
+        this.testFixture.detectChanges();
+      });
+      it('clicking outside should close slider', () => {
+        document.body.click();
+        // set timeout so the click is handled
+        setTimeout(() => {
+          this.testFixture.detectChanges();
+          expect(this.sliderComponent.psOpen).toBeFalsy();
+        });
+      });
+      it('clicking outside should not close slider if psClickOutside is false', () => {
+        document.body.click();
+        // set timeout so the click is handled
+        setTimeout(() => {
+          this.testFixture.detectChanges();
+          expect(this.sliderComponent.psOpen).toBeTruthy();
+        });
+      })
     });
   });
 
