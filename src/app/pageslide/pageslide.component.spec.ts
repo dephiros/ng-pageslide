@@ -1,6 +1,5 @@
 /* tslint:disable:no-unused-variable */
 
-import 'reflect-metadata/Reflect';
 import {Component, ViewChild} from '@angular/core';
 import {TestBed} from '@angular/core/testing';
 import PageSlideComponent from './pageslide.component';
@@ -212,17 +211,21 @@ describe('pageslide', () => {
         this.initSliderWithParams();
       });
       describe('and psSide is left', () => {
-
-      });
-      it('should push the content in body', () => {
-        this.sliderComponent.psOpen = true;
-        this.testFixture.detectChanges();
-
-      });
-      it('should push the content in body', () => {
-        this.sliderComponent.psOpen = true;
-        this.testFixture.detectChanges();
-
+        beforeEach(() => {
+          this.sliderComponent.psSide = this.sliderComponent.SIDES.left;
+          this.sliderComponent.psOpen = true;
+          this.testFixture.detectChanges();
+        });
+        it('should set body style in closed state', () => {
+          this.sliderComponent.psOpen = false;
+          this.testFixture.detectChanges();
+          expect(this.sliderComponent.body.style.left).toEqual('0px');
+          expect(this.sliderComponent.body.style.right).toEqual('0px');
+        });
+        it('should push the content in body', () => {
+          expect(this.sliderComponent.body.style.left).toEqual(this.sliderComponent.psSize);
+          expect(this.sliderComponent.body.style.right).toEqual('-' + this.sliderComponent.psSize);
+        });
       });
     });
     describe('when psContainer is set', () => {
