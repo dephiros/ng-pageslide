@@ -18,6 +18,7 @@ export default class PageSlideComponent implements OnInit, OnDestroy, OnChanges 
     right: 'right',
     left: 'left'
   };
+  public readonly CLASS_STATE = {closed: 'closed', open: 'open'};
   public readonly DEFAULT_SPEED = 0.5;
   public readonly DEFAULT_CLASS = 'ng-pageslide';
   public readonly DEFAULT_SIZE = '300px';
@@ -44,7 +45,7 @@ export default class PageSlideComponent implements OnInit, OnDestroy, OnChanges 
   @Input() public psPush = false;
   @Input() public psContainer = '';
   @Input() psKeyListener: false;
-  @Input() psBodyClass = '';
+  @Input() psBodyClass = false;
   @Input() public psClickOutside = true;
   @Output() public onopen = new EventEmitter<any>();
   @Output() public onclose = new EventEmitter<any>();
@@ -56,14 +57,13 @@ export default class PageSlideComponent implements OnInit, OnDestroy, OnChanges 
   private slider;
   // store version of function that is bound to this so we can add/remove event correctly
   private eventCanceller = new Map();
-  private readonly CLASS_STATE = {closed: 'closed', open: 'open'};
 
   constructor(private element: ElementRef, private renderer: Renderer2) {
     this.slider = element.nativeElement;
-    this.bodyClass = `${this.psClass}-body`;
   }
 
   public ngOnInit() {
+    this.bodyClass = `${this.psClass}-body`;
     this.renderer.addClass(this.slider, this.psClass);
     if (this.psContainer) {
       this.body = (document as any).getElementById(this.psContainer);

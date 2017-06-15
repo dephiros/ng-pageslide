@@ -7,8 +7,9 @@ import PageSlideComponent from './pageslide.component';
 
 // do separate class to test code in ngOnInit
 @Component({
-  template: `<pageslide psSide="top" [psSpeed]="speed" [psPush]="true" [(psOpen)]="open"
-  psClass="test"></pageslide>`
+  template: `
+      <pageslide psSide="top" [psSpeed]="speed" [psPush]="true" [(psOpen)]="open"
+                 psClass="test"></pageslide>`
 })
 class TestTopComponent {
   @ViewChild(PageSlideComponent) public sliderComponent;
@@ -30,10 +31,17 @@ class TestRightComponent extends TestTopComponent {
 })
 class TestLeftComponent extends TestTopComponent {
 }
+@Component({
+  template: `
+      <pageslide [psBodyClass]="true" psClass="test" psContainer="container"></pageslide>
+      <div id="container"></div>`
+})
+class TestContainerComponent extends TestTopComponent {
+}
 
 describe('pageslide', () => {
   this.initSlider = initSlider;
-  this.initSliderContainer = initSliderContainer;
+  this.initSliderWithParams = initSliderWithParams;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -42,7 +50,8 @@ describe('pageslide', () => {
         TestTopComponent,
         TestBottomComponent,
         TestRightComponent,
-        TestLeftComponent
+        TestLeftComponent,
+        TestContainerComponent
       ], // declare the test component
     });
     TestBed.compileComponents();
@@ -59,7 +68,7 @@ describe('pageslide', () => {
   describe('psSide', () => {
     describe('top', () => {
       beforeEach(() => {
-        this.initSliderContainer(TestTopComponent);
+        this.initSliderWithParams(TestTopComponent);
       });
       it('should start being closed', () => {
         expect(this.sliderEl.style.height).toEqual(this.sliderComponent.psSize);
@@ -75,7 +84,7 @@ describe('pageslide', () => {
 
     describe('bottom', () => {
       beforeEach(() => {
-        this.initSliderContainer(TestBottomComponent);
+        this.initSliderWithParams(TestBottomComponent);
       });
       it('should start being closed', () => {
         expect(this.sliderEl.style.height).toEqual(this.sliderComponent.psSize);
@@ -91,7 +100,7 @@ describe('pageslide', () => {
 
     describe('left', () => {
       beforeEach(() => {
-        this.initSliderContainer(TestLeftComponent);
+        this.initSliderWithParams(TestLeftComponent);
       });
       it('should start being closed', () => {
         expect(this.sliderEl.style.width).toEqual(this.sliderComponent.psSize);
@@ -107,7 +116,7 @@ describe('pageslide', () => {
 
     describe('right', () => {
       beforeEach(() => {
-        this.initSliderContainer(TestRightComponent);
+        this.initSliderWithParams(TestRightComponent);
       });
       it('should start being closed', () => {
         expect(this.sliderEl.style.width).toEqual(this.sliderComponent.psSize);
@@ -130,13 +139,13 @@ describe('pageslide', () => {
       expect(component.psSpeed).toBe(component.DEFAULT_SPEED);
     });
     it('should set transition duration on slider', () => {
-      this.initSliderContainer();
+      this.initSliderWithParams();
       expect(this.sliderEl.style.transitionDuration).toBe(this.containerComponent.speed + 's');
     });
 
     describe('psPush is true: ', () => {
       beforeEach(() => {
-        this.initSliderContainer();
+        this.initSliderWithParams();
       });
       it('should set the transition duration on body', () => {
         expect(document.body.style.transitionDuration).toBe(this.sliderComponent.psSpeed + 's');
@@ -146,7 +155,7 @@ describe('pageslide', () => {
 
   describe('psOpen', () => {
     beforeEach(() => {
-      this.initSliderContainer();
+      this.initSliderWithParams();
     });
     it('should open the drawer when set to true', () => {
       this.containerComponent.open = true;
@@ -170,19 +179,31 @@ describe('pageslide', () => {
 
   describe('psClass', () => {
     it('should use the default class if no psClass', () => {
-      initSlider.bind(this)();
+      this.initSlider();
       expect(this.sliderComponent.psClass).toEqual(this.sliderComponent.DEFAULT_CLASS);
     });
     describe('when psClass is set', () => {
       beforeEach(() => {
-        this.testFixture = TestBed.createComponent(TestTopComponent);
-        this.containerComponent = this.testFixture.sliderComponent;
+        this.initSliderWithParams();
       });
     });
     it('should set the correct class on slider', () => {
+      expect(this.sliderEl.className.split(' ')).toContain('test');
     });
-    it('should set the correct class on slider container when slider is closed');
-    it('should set the correct class on slider container when slider is opened');
+    describe('when psBodyClass is true', () => {
+      beforeEach(() => {
+        this.initSliderWithParams(TestContainerComponent);
+      });
+      it('should set the correct class on slider container when slider is closed', () => {
+        expect(this.sliderComponent.body.className.split(' '))
+          .toContain(`test-body-${this.sliderComponent.CLASS_STATE.closed}`);
+      });
+      it('should set the correct class on slider container when slider is opened', () => {
+        this.sliderComponent.psOpen = true;
+        expect(this.sliderComponent.body.className.split(' '))
+          .toContain(`test-body-${this.sliderComponent.CLASS_STATE.open}`);
+      });
+    });
   });
 
   describe('pushContent', () => {
@@ -224,7 +245,7 @@ describe('pageslide', () => {
   /**
    * use for test most case with outer container
    */
-  function initSliderContainer(containerClass = TestTopComponent) {
+  function initSliderWithParams(containerClass = TestTopComponent) {
     this.testFixture = TestBed.createComponent(containerClass);
     this.containerComponent = this.testFixture.componentInstance;
     this.sliderComponent = this.containerComponent.sliderComponent;
