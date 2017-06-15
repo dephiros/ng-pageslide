@@ -5,3 +5,6 @@ dependencies:
   pre:
     - npm install npm@latest -g # Should fix bug in ng test
     - npm install
+test:
+  override:
+    - npm run test -- --watch=false
