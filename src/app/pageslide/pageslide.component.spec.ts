@@ -384,7 +384,6 @@ describe('pageslide', () => {
   describe('container', () => {
     it('should attach page slide by default to body', () => {
       this.initSliderWithParams();
-      console.log(document.getElementsByTagName('pageslide'));
       expect(this.sliderEl.parentElement).toBe(document.body);
     });
 
