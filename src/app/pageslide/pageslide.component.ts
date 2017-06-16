@@ -24,16 +24,21 @@ export default class PageSlideComponent implements OnInit, OnDestroy, OnChanges 
   public readonly DEFAULT_SIZE = '300px';
   public readonly DEFAULT_ZINDEX = 1000;
 
-  @Input() public set psOpen(value) {
+  @Input()
+  public set psOpen(value) {
     // don't update slider if value already correct
-    if (this.isOpen === value) { return; }
+    if (this.isOpen === value) {
+      return;
+    }
     this.isOpen = !!value;
     this.psOpenChange.emit(this.isOpen);
     this.updateSlider();
-  };
+  }
+
   public get psOpen() {
     return this.isOpen;
   }
+
   // two way data binding
   @Output() public psOpenChange = new EventEmitter<boolean>();
   @Input() public psAutoClose: boolean;
@@ -44,8 +49,8 @@ export default class PageSlideComponent implements OnInit, OnDestroy, OnChanges 
   @Input() public psZindex = this.DEFAULT_ZINDEX;
   @Input() public psPush = false;
   @Input() public psContainer = '';
-  @Input() psKeyListener: false;
-  @Input() psBodyClass = false;
+  @Input() public psKeyListener: false;
+  @Input() public psBodyClass = false;
   @Input() public psClickOutside = true;
   @Output() public onopen = new EventEmitter<any>();
   @Output() public onclose = new EventEmitter<any>();
@@ -95,10 +100,12 @@ export default class PageSlideComponent implements OnInit, OnDestroy, OnChanges 
     this.initSliderSide();
 
     // onclose, on open
-    this.eventCanceller.set('onTransitionEnd', this.renderer.listen(this.slider, 'transitionend', this.onTransitionEnd.bind(this)));
+    this.eventCanceller.set('onTransitionEnd',
+      this.renderer.listen(this.slider, 'transitionend', this.onTransitionEnd.bind(this)));
     // autoClose
     if (this.psAutoClose) {
-      this.eventCanceller.set('closeSlider', this.renderer.listen(document, 'popstate', this.closeSlider.bind(this)));
+      this.eventCanceller.set('closeSlider',
+        this.renderer.listen(document, 'popstate', this.closeSlider.bind(this)));
     }
     this.isInit = true;
     // this trigger the setter function to make sure the UI reflect the state after init
@@ -106,14 +113,13 @@ export default class PageSlideComponent implements OnInit, OnDestroy, OnChanges 
   }
 
   public ngOnChanges(changes: SimpleChanges) {
-    if (changes['psSize'] && changes['psSize'].currentValue !== changes['psSize'].previousValue) {
+    if (changes.psSize && changes.psSize.currentValue !== changes.psSize.previousValue) {
       this.initSliderSide();
     }
-    if (changes['psPush'] !== undefined) {
+    if (changes.psPush !== undefined) {
       this.psPush = this.psPush && !this.psContainer; // not support push in container
     }
   }
-
 
   public ngOnDestroy() {
     if (this.slider.parentNode === this.body) {
@@ -128,7 +134,9 @@ export default class PageSlideComponent implements OnInit, OnDestroy, OnChanges 
 
   public onTransitionEnd(event) {
     // don't do anything if the event does not come from slider
-    if (event.target !== event.currentTarget) { return; }
+    if (event.target !== event.currentTarget) {
+      return;
+    }
     if (this.psOpen) {
       this.onopen.emit(true);
     } else {
@@ -171,7 +179,9 @@ export default class PageSlideComponent implements OnInit, OnDestroy, OnChanges 
 
   private closeSlider() {
     // this will get called from setter before init
-    if (!this.isInit) { return; }
+    if (!this.isInit) {
+      return;
+    }
     switch (this.psSide) {
       case this.SIDES.right:
         this.slider.style.right = '-' + this.psSize;
@@ -215,10 +225,11 @@ export default class PageSlideComponent implements OnInit, OnDestroy, OnChanges 
     }
   }
 
-
   private openSlider() {
     // this will get called from setter before init
-    if (!this.isInit) { return; }
+    if (!this.isInit) {
+      return;
+    }
     switch (this.psSide) {
       case this.SIDES.right:
         this.slider.style.right = '0px';

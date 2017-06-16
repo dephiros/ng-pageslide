@@ -6,8 +6,7 @@ import PageSlideComponent from './pageslide.component';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/observable/fromEvent';
 import {By} from "@angular/platform-browser";
-
-
+/* tslint:disable:max-classes-per-file */
 // do separate class to test code in ngOnInit
 @Component({
   template: `
@@ -20,6 +19,7 @@ class TestTopComponent {
   public open = false;
   public size = 100;
 }
+
 @Component({
   template: '<pageslide psSide="bottom"></pageslide>'
 })
@@ -42,6 +42,7 @@ class TestLeftComponent extends TestTopComponent {
 })
 class TestContainerComponent extends TestTopComponent {
 }
+/* tslint:enable:max-classes-per-file */
 
 describe('pageslide', () => {
   this.initSlider = initSlider;
@@ -93,7 +94,7 @@ describe('pageslide', () => {
       it('should start being closed', () => {
         expect(this.sliderEl.style.height).toEqual(this.sliderComponent.psSize);
         expect(this.sliderEl.style.width).toEqual('100%');
-        expect(this.sliderEl.style.bottom).toEqual(`-${this.sliderComponent.psSize}`)
+        expect(this.sliderEl.style.bottom).toEqual(`-${this.sliderComponent.psSize}`);
       });
       it('should open correctly', () => {
         this.sliderComponent.psOpen = true;
@@ -109,7 +110,7 @@ describe('pageslide', () => {
       it('should start being closed', () => {
         expect(this.sliderEl.style.width).toEqual(this.sliderComponent.psSize);
         expect(this.sliderEl.style.height).toEqual('100%');
-        expect(this.sliderEl.style.left).toEqual(`-${this.sliderComponent.psSize}`)
+        expect(this.sliderEl.style.left).toEqual(`-${this.sliderComponent.psSize}`);
       });
       it('should open correctly', () => {
         this.sliderComponent.psOpen = true;
@@ -125,7 +126,7 @@ describe('pageslide', () => {
       it('should start being closed', () => {
         expect(this.sliderEl.style.width).toEqual(this.sliderComponent.psSize);
         expect(this.sliderEl.style.height).toEqual('100%');
-        expect(this.sliderEl.style.right).toEqual(`-${this.sliderComponent.psSize}`)
+        expect(this.sliderEl.style.right).toEqual(`-${this.sliderComponent.psSize}`);
       });
       it('should open correctly', () => {
         this.sliderComponent.psOpen = true;
@@ -134,7 +135,6 @@ describe('pageslide', () => {
       });
     });
   });
-
 
   describe('psSpeed', () => {
     it('should have default speed', () => {
@@ -178,7 +178,7 @@ describe('pageslide', () => {
       this.testFixture.detectChanges();
       this.sliderComponent.psOpen = false;
       expect(this.containerComponent.open).toBeFalsy();
-    })
+    });
   });
 
   describe('psClass', () => {
@@ -294,7 +294,7 @@ describe('pageslide', () => {
         this.initSliderWithParams(TestContainerComponent);
         expect(this.sliderComponent.psPush).toBeFalsy();
       });
-    })
+    });
   });
 
   describe('psSize', () => {
@@ -390,7 +390,7 @@ describe('pageslide', () => {
     it('should attach page slide to specified container', () => {
       this.initSliderWithParams(TestContainerComponent);
       expect(this.sliderEl.parentElement).toBe(document.getElementById('container'));
-    })
+    });
   });
 
   /**
