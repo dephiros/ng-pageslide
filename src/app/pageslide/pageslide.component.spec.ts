@@ -1,8 +1,12 @@
 /* tslint:disable:no-unused-variable */
 
-import {Component, ViewChild} from '@angular/core';
-import {TestBed} from '@angular/core/testing';
+import {Component, DebugElement, ViewChild} from '@angular/core';
+import {async, fakeAsync, TestBed, tick} from '@angular/core/testing';
 import PageSlideComponent from './pageslide.component';
+import {Observable} from 'rxjs/Observable';
+import 'rxjs/add/observable/fromEvent';
+import {By} from "@angular/platform-browser";
+
 
 // do separate class to test code in ngOnInit
 @Component({
@@ -12,7 +16,7 @@ import PageSlideComponent from './pageslide.component';
 })
 class TestTopComponent {
   @ViewChild(PageSlideComponent) public sliderComponent;
-  public speed = 0.7;
+  public speed = 0.001;
   public open = false;
   public size = 100;
 }
@@ -347,14 +351,45 @@ describe('pageslide', () => {
     });
   });
 
-  describe('event', () => {
-    it('should trigger open event when slider open');
-    it('should trigger close event when slider close');
-    it('transitionend event not come from slider will not trigger open/close event');
-  });
+  // // because this relies on css event, it is very hard to test
+  // describe('event', () => {
+  //   beforeEach(() => {
+  //     this.initSlider();
+  //   });
+  //   it('should trigger open event when slider open', (done: any) => {
+  //     this.sliderComponent.onopen.subscribe(() => {
+  //       done();
+  //     });
+  //     this.sliderComponent.psOpen = true;
+  //     this.testFixture.debugElement.triggerEventHandler('transitionend',
+  //       {target: this.sliderEl, currenTarget: this.sliderEl});
+  //     this.testFixture.detectChanges();
+  //   });
+  //   it('should trigger close event when slider close', (done: any) => {
+  //     //  have to open before can close
+  //     this.sliderComponent.psOpen = true;
+  //     this.testFixture.detectChanges();
+  //     this.sliderComponent.onclose.subscribe(() => {
+  //       done();
+  //     });
+  //     this.sliderComponent.psOpen = false;
+  //     this.testFixture.debugElement.triggerEventHandler('transitionend',
+  //       {target: this.sliderEl, currenTarget: this.sliderEl});
+  //     this.testFixture.detectChanges();
+  //   });
+  //   it('transitionend event not come from slider will not trigger open/close event');
+  // });
 
   describe('container', () => {
-    it('should attach page slide by default to body');
+    it('should attach page slide by default to body', () => {
+      this.initSlider();
+      expect(this.sliderEl.parentNode).toBe(document.body);
+    });
+
+    it('should attach page slide to specified container', () => {
+      this.initSliderWithParams(TestContainerComponent);
+      expect(this.sliderEl.parentNode).toBe(document.getElementById('container'));
+    })
   });
 
   /**

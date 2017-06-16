@@ -147,7 +147,7 @@
         <h3>event</h3>
         <div>
             <button class="tiny button" (click)="checkEvent = !checkEvent">Event</button>
-            <pageslide [(psOpen)]="checkEvent" psSide="right" [psBodyClass]="true" (onclose)="onClose()" (onopen)="onOpen()">
+            <pageslide [(psOpen)]="checkEvent" psSide="right" [psBodyClass]="true" (onclose)="onClose()" (onopen)="onOpen()" [psSpeed]="0.001">
             <div style="padding:20px; overflow: hidden" id="demo-event">
                 <h2>Hello event</h2>
                 <p>Put here whatever you want</p>
