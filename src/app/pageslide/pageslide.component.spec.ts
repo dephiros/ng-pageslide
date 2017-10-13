@@ -61,6 +61,13 @@ describe('pageslide', () => {
             ], // declare the test component
         });
         TestBed.compileComponents();
+        window.requestAnimationFrame = ((fn) => {
+            if (fn) {
+                fn();
+                console.log('mock animation frame');
+            }
+            return 0;
+        }) as any;
     });
 
     describe('pageslide', () => {
@@ -73,9 +80,9 @@ describe('pageslide', () => {
 
     describe('psSide', () => {
         describe('top', () => {
-            beforeEach(async(() => {
+            beforeEach(() => {
                 this.initSliderWithParams(TestTopComponent);
-            }));
+            });
             it('should start being closed', () => {
                 expect(this.sliderEl.style.height).toEqual(this.sliderComponent.psSize);
                 expect(this.sliderEl.style.width).toEqual('100%');
@@ -88,9 +95,9 @@ describe('pageslide', () => {
         });
 
         describe('bottom', () => {
-            beforeEach(async(() => {
+            beforeEach(() => {
                 this.initSliderWithParams(TestBottomComponent);
-            }));
+            });
             it('should start being closed', () => {
                 expect(this.sliderEl.style.height).toEqual(this.sliderComponent.psSize);
                 expect(this.sliderEl.style.width).toEqual('100%');
@@ -104,9 +111,9 @@ describe('pageslide', () => {
         });
 
         describe('left', () => {
-            beforeEach(async(() => {
+            beforeEach(() => {
                 this.initSliderWithParams(TestLeftComponent);
-            }));
+            });
             it('should start being closed', () => {
                 expect(this.sliderEl.style.width).toEqual(this.sliderComponent.psSize);
                 expect(this.sliderEl.style.height).toEqual('100%');
@@ -120,9 +127,9 @@ describe('pageslide', () => {
         });
 
         describe('right', () => {
-            beforeEach(async(() => {
+            beforeEach(() => {
                 this.initSliderWithParams(TestRightComponent);
-            }));
+            });
             it('should start being closed', () => {
                 expect(this.sliderEl.style.width).toEqual(this.sliderComponent.psSize);
                 expect(this.sliderEl.style.height).toEqual('100%');
@@ -142,15 +149,15 @@ describe('pageslide', () => {
             const component = testFixture.componentInstance;
             expect(component.psSpeed).toBe(component.DEFAULT_SPEED);
         });
-        it('should set transition duration on slider', async(() => {
+        it('should set transition duration on slider', () => {
             this.initSliderWithParams();
             expect(this.sliderEl.style.transitionDuration).toBe(this.containerComponent.speed + 's');
-        }));
+        });
 
         describe('psPush is true: ', () => {
-            beforeEach(async(() => {
+            beforeEach(() => {
                 this.initSliderWithParams();
-            }));
+            });
             it('should set the transition duration on body', () => {
                 expect(document.body.style.transitionDuration).toBe(this.sliderComponent.psSpeed + 's');
             });
@@ -158,11 +165,11 @@ describe('pageslide', () => {
     });
 
     describe('psOpen', () => {
-        beforeEach(async(() => {
+        beforeEach(() => {
             this.initSliderWithParams();
-            this.containerComponent.open = true;
+            this.openSlider();
             this.testFixture.detectChanges();
-        }));
+        });
         it('should open the drawer when set to true', () => {
             expect(isTopOpen(this.sliderEl)).toBeTruthy();
         });
@@ -181,17 +188,17 @@ describe('pageslide', () => {
             expect(this.sliderComponent.psClass).toEqual(this.sliderComponent.DEFAULT_CLASS);
         });
         describe('when psClass is set', () => {
-            beforeEach(async(() => {
+            beforeEach(() => {
                 this.initSliderWithParams();
-            }));
+            });
         });
         it('should set the correct class on slider', () => {
             expect(this.sliderEl.className.split(' ')).toContain('test');
         });
         describe('when psBodyClass is true', () => {
-            beforeEach(async(() => {
+            beforeEach(() => {
                 this.initSliderWithParams(TestContainerComponent);
-            }));
+            });
             it('should set the correct class on slider container when slider is closed', () => {
                 expect(this.sliderComponent.body.className.split(' '))
                     .toContain(`test-body-${this.sliderComponent.CLASS_STATE.closed}`);
@@ -206,9 +213,9 @@ describe('pageslide', () => {
 
     describe('pushContent', () => {
         describe('when psContainer is not set', () => {
-            beforeEach(async(() => {
+            beforeEach(() => {
                 this.initSliderWithParams();
-            }));
+            });
 
             describe('and psSide is top', () => {
                 beforeEach(() => {
@@ -298,9 +305,9 @@ describe('pageslide', () => {
         });
 
         describe('when size is specified', () => {
-            beforeEach(async(() => {
+            beforeEach(() => {
                 this.initSliderWithParams();
-            }));
+            });
             it('slider should use specified size', () => {
                 expect(this.sliderComponent.psSize).toEqual(this.containerComponent.size + 'px');
             });
